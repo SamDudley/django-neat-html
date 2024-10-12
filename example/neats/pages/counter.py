@@ -1,12 +1,3 @@
-# django-neat-html
-
-Integrate neat-html as a template backend for Django.
-
-## Example
-
-```python
-# my_app/neats/page/counter.py
-
 from neat_html import h, safe
 
 from my_app.service.counter import get_count, inc_count
@@ -37,20 +28,3 @@ def main(context):
             increment(context),
         ]
     )
-
-
-# my_app/views.py
-
-def counter(request):
-    if request.method == "POST":
-        inc_count()
-
-    return TemplateResponse(request, "my_app.neats.page.counter.main", {})
-
-
-# my_app/urls.py
-
-url_patterns = [
-    path("counter", views.counter, name="counter"),
-]
-```
