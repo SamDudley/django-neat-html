@@ -19,6 +19,8 @@ from django.contrib import admin
 from django.template.response import TemplateResponse
 from django.urls import path
 
+from neats.pages.counter import counter_view
+
 
 def home(request):
     return TemplateResponse(request, "neats.pages.home.main", {})
@@ -26,5 +28,6 @@ def home(request):
 
 urlpatterns = [
     path("", home, name="home"),
+    path("counter", counter_view, name="counter"),
     path("admin/", admin.site.urls),
 ]
