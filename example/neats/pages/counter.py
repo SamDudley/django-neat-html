@@ -1,12 +1,29 @@
+from django.template.response import TemplateResponse
 from neat_html import h, safe
-
-from my_app.service.counter import get_count, inc_count
 
 from .base import page
 
 
+# Service
+
+
+COUNTER: int = 0
+
+
+def get_count() -> int:
+    return COUNTER
+
+
+def inc_count() -> None:
+    global COUNTER
+    COUNTER += 1
+
+
+# Components
+
+
 def counter():
-    return h("p", get_count())
+    return h("p", str(get_count()))
 
 
 def increment(context):
@@ -15,8 +32,8 @@ def increment(context):
         {"method": "post"},
         [
             safe(context["csrf_input"]),
-            h("button", {"type": "submit"} "+"),
-        ]
+            h("button", {"type": "submit"}, "+"),
+        ],
     )
 
 
@@ -26,5 +43,14 @@ def main(context):
         content=[
             counter(),
             increment(context),
-        ]
+        ],
     )
+
+
+# Views
+
+
+def counter_view(request):
+    if request.method == "POST":
+        inc_count()
+    return TemplateResponse(request, "neats.pages.counter.main", {})
