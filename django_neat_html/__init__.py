@@ -1,12 +1,17 @@
 from collections.abc import Callable
 from typing import Any
 
+from asgiref.local import Local
 from django.http import HttpRequest
 from django.template.backends.base import BaseEngine
 from django.template.backends.utils import csrf_input_lazy, csrf_token_lazy
 from django.utils.module_loading import import_string
 
 from neat_html import Element, render
+
+
+_context = Local()
+context = _context
 
 
 class Template:
@@ -22,6 +27,10 @@ class Template:
             context["request"] = request
             context["csrf_input"] = csrf_input_lazy(request)
             context["csrf_token"] = csrf_token_lazy(request)
+
+        for key, value in context.items():
+            setattr(_context, key, value)
+
         return render(self.template(context))
 
 

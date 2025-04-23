@@ -1,4 +1,5 @@
 from django.template.response import TemplateResponse
+from django_neat_html import context
 from neat_html import h, safe
 
 from .base import page
@@ -26,12 +27,12 @@ def counter():
     return h("p", str(get_count()))
 
 
-def increment(context):
+def increment():
     return h(
         "form",
         {"method": "post"},
         [
-            safe(context["csrf_input"]),
+            safe(context.csrf_input),
             h("button", {"type": "submit"}, "+"),
         ],
     )
@@ -42,7 +43,7 @@ def main(context):
         title="Counter example",
         content=[
             counter(),
-            increment(context),
+            increment(),
         ],
     )
 
