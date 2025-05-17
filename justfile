@@ -6,3 +6,6 @@ build:
 
 publish:
 	poetry publish
+
+run-example:
+	poetry run python example/manage.py runserver
